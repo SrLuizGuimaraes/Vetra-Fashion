@@ -40,7 +40,14 @@
     "sale": "Sale",
     "quantity": "Quantity",
     "description": "Description",
-    "choose_options": "Choose options"
+    "choose_options": "Choose options",
+    "low_stock": "Only {{ count }} left in stock"
+  },
+  "countdown": {
+    "days": "Days",
+    "hours": "Hours",
+    "minutes": "Min",
+    "seconds": "Sec"
   },
   "collection": {
     "filter": "Filter",

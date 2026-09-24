@@ -7,6 +7,7 @@
 
 {% liquid
   assign current_variant = product.selected_or_first_available_variant
+  assign low_stock_threshold = section.settings.low_stock_threshold
 %}
 
 <div class="product">
@@ -49,7 +50,19 @@
 
     {% render 'product-price', variant: current_variant %}
 
-    <variant-picker class="product-form" data-product-json='{{ product.variants | json | escape }}'>
+    {% if current_variant.inventory_management == 'shopify' and current_variant.inventory_quantity > 0 and current_variant.inventory_quantity <= low_stock_threshold %}
+      <p class="product-stock" data-stock-counter>
+        {{ 'products.low_stock' | t: count: current_variant.inventory_quantity }}
+      </p>
+    {% else %}
+      <p class="product-stock" data-stock-counter hidden></p>
+    {% endif %}
+
+    <variant-picker
+      class="product-form"
+      data-product-json='{{ product.variants | json | escape }}'
+      data-low-stock-threshold="{{ low_stock_threshold }}"
+    >
       {% form 'product', product, id: 'product-form' %}
         <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id-input>
 
@@ -211,7 +224,17 @@
 
   .product-info .product-price {
     font-size: 1.125rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .product-stock {
+    margin: 0 0 1.5rem;
+    font-size: 0.8125rem;
+    color: var(--color-accent);
+  }
+
+  .product-stock[hidden] {
+    display: none;
   }
 
   .product-option {
@@ -427,7 +450,17 @@
 {% schema %}
 {
   "name": "t:general.product",
-  "settings": [],
+  "settings": [
+    {
+      "type": "range",
+      "id": "low_stock_threshold",
+      "label": "t:labels.low_stock_threshold",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "default": 10
+    }
+  ],
   "disabled_on": {
     "groups": ["header", "footer"]
   }

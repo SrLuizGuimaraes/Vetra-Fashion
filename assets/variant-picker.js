@@ -81,6 +81,20 @@ class VariantPicker extends HTMLElement {
            <span class="product-price__compare-at">${formatMoney(variant.compare_at_price, this.currency)}</span>`
         : `<span class="product-price__regular">${formatMoney(variant.price, this.currency)}</span>`;
     }
+
+    const stockEl = this.closest('.product-info')?.querySelector('[data-stock-counter]');
+    if (stockEl) {
+      const threshold = Number(this.dataset.lowStockThreshold || 0);
+      const isLowStock =
+        variant.inventory_management === 'shopify' &&
+        variant.inventory_quantity > 0 &&
+        variant.inventory_quantity <= threshold;
+
+      stockEl.hidden = !isLowStock;
+      stockEl.textContent = isLowStock
+        ? window.vetraStrings.lowStockTemplate.replace('__COUNT__', variant.inventory_quantity)
+        : '';
+    }
   }
 }
 

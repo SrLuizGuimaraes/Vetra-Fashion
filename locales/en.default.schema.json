@@ -12,6 +12,7 @@
     "colors": "Colors",
     "column": "Column",
     "content": "Content",
+    "countdown": "Countdown",
     "custom_section": "Custom section",
     "fonts": "Fonts",
     "footer": "Footer",
@@ -23,6 +24,8 @@
     "password": "Password",
     "primary": "Primary",
     "product": "Product",
+    "promo_popup": "Promo popup",
+    "promo_tiles": "Promo tiles",
     "row": "Row",
     "search": "Search",
     "secondary": "Secondary",
@@ -31,6 +34,7 @@
     "sidebar": "Sidebar",
     "text": "Text",
     "theme": "Theme",
+    "tile": "Tile",
     "typography": "Typography"
   },
   "labels": {
@@ -38,11 +42,20 @@
     "alignment": "Alignment",
     "background": "Background",
     "border": "Border",
+    "delay_seconds": "Delay before showing",
+    "end_date": "End date and time",
+    "end_date_info": "Format: YYYY-MM-DDTHH:MM:SS, in the shop's timezone",
+    "ended_text": "Message after it ends",
     "foreground": "Foreground",
+    "frequency_days": "Days before showing again",
     "grid_gap": "Grid spacing",
     "grid_item_width": "Grid item width",
+    "heading": "Heading",
+    "image": "Image",
     "input_corner_radius": "Input corner radius",
     "layout_direction": "Layout direction",
+    "link": "Link",
+    "link_text": "Link text",
     "menu": "Menu",
     "customer_account_menu": "Customer account menu",
     "padding": "Padding",
@@ -51,7 +64,8 @@
     "show_payment_icons": "Show payment icons",
     "tagline": "Tagline",
     "text_style": "Text style",
-    "text": "Text"
+    "text": "Text",
+    "low_stock_threshold": "Low stock threshold"
   },
   "options": {
     "alignment": {
