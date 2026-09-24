@@ -17,13 +17,13 @@
       {
         "type": "font_picker",
         "id": "type_primary_font",
-        "default": "work_sans_n4",
+        "default": "montserrat_n3",
         "label": "t:general.primary"
       },
       {
         "type": "font_picker",
         "id": "type_heading_font",
-        "default": "playfair_display_n4",
+        "default": "montserrat_n4",
         "label": "t:general.secondary"
       }
     ]
@@ -71,14 +71,20 @@
       {
         "type": "color",
         "id": "foreground_color",
-        "default": "#2B2420",
+        "default": "#1C1C1C",
         "label": "t:labels.foreground"
       },
       {
         "type": "color",
         "id": "accent_color",
-        "default": "#7A1F2B",
+        "default": "#67101A",
         "label": "t:labels.accent"
+      },
+      {
+        "type": "color",
+        "id": "secondary_background_color",
+        "default": "#F5F1EC",
+        "label": "t:labels.secondary_background"
       },
       {
         "type": "color",

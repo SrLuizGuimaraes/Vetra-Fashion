@@ -29,7 +29,10 @@
         addToCart: {{ 'products.add_to_cart' | t | json }},
         soldOut: {{ 'products.sold_out' | t | json }},
         unavailable: {{ 'products.unavailable' | t | json }},
-        lowStockTemplate: {{ 'products.low_stock' | t: count: '__COUNT__' | json }}
+        lowStockTemplate: {{ 'products.low_stock' | t: count: '__COUNT__' | json }},
+        shippingEstimating: {{ 'shipping_estimator.estimating' | t | json }},
+        shippingEmpty: {{ 'shipping_estimator.empty' | t | json }},
+        shippingError: {{ 'shipping_estimator.error' | t | json }}
       };
     </script>
 

@@ -37,8 +37,18 @@ shopify theme push                                 # publica na loja
 6. **Merchandising** — badges, stock counter, countdown, promo popups/tiles ✅
 7. **Polimento** — lookbook com hotspots, before/after slider, animações de scroll, home montada ✅
 
-Todas as fases do roadmap inicial estão implementadas. Ainda não foi feito preview ao vivo numa
-loja de desenvolvimento — próximo passo antes de submeter à Theme Store.
+Todas as fases do roadmap inicial estão implementadas e confirmadas rodando ao vivo numa loja de
+desenvolvimento (header, carrinho AJAX, PDP com variantes, countdown, filtros de coleção).
+
+## Paridade com o Thema Vetra original
+
+Identidade visual (cores `#67101A`/`#1C1C1C`/`#F5F1EC` e tipografia Montserrat) e as 16 seções
+`vetra-*` do tema original foram conferidas e recriadas aqui com código próprio:
+
+before-after, collection-list, complete-look, countdown, featured-collection, lookbook, marquee,
+promo-popup, promo-tiles, quick-view (snippet + JS), recently-viewed, shipping-estimator (com
+cotação real via `/cart/shipping_rates.json`), slideshow, sticky-cart (embutido no PDP),
+stock-counter (embutido no PDP), tabs, trust-badges.
 
 ## Créditos
 

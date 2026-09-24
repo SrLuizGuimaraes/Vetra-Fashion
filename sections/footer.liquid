@@ -1,4 +1,5 @@
-<footer class="site-footer">
+<footer class="site-footer full-width">
+  <div class="site-footer__inner">
   <div class="site-footer__row">
     <div class="site-footer__brand">
       <p class="site-footer__logo">{{ shop.name }}</p>
@@ -29,17 +30,23 @@
       </div>
     {% endif %}
   </div>
+  </div>
 </footer>
 
 {% stylesheet %}
   .site-footer {
+    margin-top: 4rem;
+    background-color: var(--color-accent);
+    color: var(--color-background);
+  }
+
+  .site-footer__inner {
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    margin-top: 4rem;
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-    border-top: 1px solid var(--color-border);
+    max-width: var(--page-width);
+    margin: 0 auto;
+    padding: 3rem var(--page-margin);
   }
 
   .site-footer__row {
@@ -57,13 +64,13 @@
     font-size: 1.25rem;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--color-accent);
+    color: var(--color-background);
   }
 
   .site-footer__tagline {
     max-width: 26rem;
     margin: 0;
-    color: var(--color-foreground);
+    color: var(--color-background);
     opacity: 0.75;
     font-size: 0.875rem;
   }
@@ -76,7 +83,7 @@
   }
 
   .site-footer__links a {
-    color: var(--color-foreground);
+    color: var(--color-background);
     text-decoration: none;
     font-size: 0.8125rem;
     letter-spacing: 0.03em;
@@ -84,13 +91,13 @@
   }
 
   .site-footer__links a:hover {
-    color: var(--color-accent);
+    opacity: 0.75;
   }
 
   .site-footer__row--bottom {
     align-items: center;
     padding-top: 1.5rem;
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid rgb(255 255 255 / 25%);
     font-size: 0.75rem;
     opacity: 0.75;
   }

@@ -1,20 +1,30 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": {
       "type": "product",
       "settings": {}
+    },
+    "tabs": {
+      "type": "vetra-tabs",
+      "blocks": {
+        "tab-1": { "type": "tab", "settings": {} },
+        "tab-2": { "type": "tab", "settings": {} }
+      },
+      "block_order": ["tab-1", "tab-2"],
+      "settings": {}
+    },
+    "shipping-estimator": {
+      "type": "vetra-shipping-estimator",
+      "settings": {}
+    },
+    "complete-look": {
+      "type": "vetra-complete-look",
+      "settings": {}
+    },
+    "recently-viewed": {
+      "type": "vetra-recently-viewed",
+      "settings": {}
     }
   },
-  "order": [
-    "main"
-  ]
+  "order": ["main", "tabs", "shipping-estimator", "complete-look", "recently-viewed"]
 }

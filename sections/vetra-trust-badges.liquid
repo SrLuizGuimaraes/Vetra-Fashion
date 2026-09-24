@@ -1,0 +1,99 @@
+{% comment %}
+  A row of reassurance badges (shipping, returns, secure checkout).
+{% endcomment %}
+
+<div class="trust-badges shopify-section">
+  <div class="trust-badges__grid">
+    {% for block in section.blocks %}
+      <div class="trust-badge" {{ block.shopify_attributes }}>
+        {% if block.settings.icon %}
+          <div class="trust-badge__icon">{{ block.settings.icon | image_url: width: 80 | image_tag: width: 40, height: 40 }}</div>
+        {% endif %}
+        <div class="trust-badge__text">
+          {% if block.settings.heading != blank %}
+            <p class="trust-badge__heading">{{ block.settings.heading }}</p>
+          {% endif %}
+          {% if block.settings.text != blank %}
+            <p class="trust-badge__description">{{ block.settings.text }}</p>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .trust-badges {
+    padding: 2.5rem 0;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .trust-badges__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    gap: 2rem;
+  }
+
+  .trust-badge {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-align: left;
+  }
+
+  .trust-badge__icon {
+    flex-shrink: 0;
+    width: 2.5rem;
+  }
+
+  .trust-badge__heading {
+    margin: 0 0 0.25rem;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .trust-badge__description {
+    margin: 0;
+    font-size: 0.8125rem;
+    opacity: 0.7;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.trust_badges",
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "t:general.badge",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "t:labels.icon"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:labels.heading",
+          "default": "Free shipping"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "t:labels.text",
+          "default": "On orders over $150"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.trust_badges",
+      "blocks": [{ "type": "badge" }, { "type": "badge" }, { "type": "badge" }]
+    }
+  ]
+}
+{% endschema %}

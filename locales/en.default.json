@@ -46,6 +46,17 @@
   "lookbook": {
     "before_after_slider": "Drag to compare before and after"
   },
+  "slideshow": {
+    "go_to_slide": "Go to slide {{ number }}"
+  },
+  "shipping_estimator": {
+    "country": "Country code",
+    "zip": "ZIP / postal code",
+    "estimate": "Estimate",
+    "estimating": "Calculating…",
+    "empty": "No rates available for that address, or your cart is empty.",
+    "error": "Couldn't calculate shipping. Please try again."
+  },
   "countdown": {
     "days": "Days",
     "hours": "Hours",
@@ -61,7 +72,8 @@
     "no_products": "No products found",
     "results_count": "{{ count }} products",
     "price_from": "From",
-    "price_to": "To"
+    "price_to": "To",
+    "view_all": "View all"
   },
   "customers": {
     "login": {

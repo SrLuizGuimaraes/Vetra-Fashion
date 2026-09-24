@@ -1,0 +1,109 @@
+{% comment %}
+  A looping scrolling text ticker (announcements, taglines).
+{% endcomment %}
+
+<div
+  class="marquee shopify-section"
+  style="--marquee-duration: {{ section.settings.speed }}s; --marquee-direction: {% if section.settings.direction == 'right' %}reverse{% else %}normal{% endif %};"
+>
+  <div class="marquee__track">
+    {% for i in (1..2) %}
+      <div class="marquee__group" aria-hidden="{% if i == 2 %}true{% else %}false{% endif %}">
+        {% for block in section.blocks %}
+          <span class="marquee__item" {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
+        {% endfor %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .marquee {
+    overflow: hidden;
+    background-color: var(--color-secondary-background);
+    padding: 0.75rem 0;
+  }
+
+  .marquee__track {
+    display: flex;
+    width: max-content;
+  }
+
+  .marquee__group {
+    display: flex;
+    align-items: center;
+    animation: marquee-scroll var(--marquee-duration) linear infinite;
+    animation-direction: var(--marquee-direction);
+  }
+
+  .marquee__item {
+    padding: 0 1.5rem;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.8125rem;
+  }
+
+  @keyframes marquee-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee__group {
+      animation: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.marquee",
+  "settings": [
+    {
+      "type": "range",
+      "id": "speed",
+      "min": 10,
+      "max": 80,
+      "step": 5,
+      "unit": "s",
+      "default": 25,
+      "label": "t:labels.speed"
+    },
+    {
+      "type": "select",
+      "id": "direction",
+      "options": [
+        { "value": "left", "label": "t:options.direction.left" },
+        { "value": "right", "label": "t:options.direction.right" }
+      ],
+      "default": "left",
+      "label": "t:labels.direction"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "t:general.text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "t:labels.text",
+          "default": "Free shipping over $150"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.marquee",
+      "blocks": [{ "type": "text" }, { "type": "text" }, { "type": "text" }]
+    }
+  ]
+}
+{% endschema %}
