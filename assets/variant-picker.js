@@ -17,6 +17,29 @@ class VariantPicker extends HTMLElement {
     this.addEventListener('change', (event) => {
       if (event.target.matches('input[type="radio"]')) this.sync();
     });
+
+    const form = this.querySelector('form');
+    form.addEventListener('submit', (event) => this.submit(event));
+  }
+
+  async submit(event) {
+    event.preventDefault();
+    const form = event.target;
+    const submitButton = form.querySelector('[data-add-to-cart]');
+    const originalLabel = submitButton.textContent;
+    submitButton.disabled = true;
+
+    try {
+      await window.vetraCart.addToCart(new FormData(form));
+      document.getElementById('cart-drawer')?.open();
+    } catch (error) {
+      submitButton.textContent = window.vetraStrings.unavailable;
+      setTimeout(() => {
+        submitButton.textContent = originalLabel;
+      }, 2000);
+    } finally {
+      submitButton.disabled = false;
+    }
   }
 
   selectedOptions() {

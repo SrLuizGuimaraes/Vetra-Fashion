@@ -1,7 +1,8 @@
 {
   "general": {
     "menu": "Menu",
-    "close": "Close"
+    "close": "Close",
+    "product": "Product"
   },
   "404": {
     "title": "404",

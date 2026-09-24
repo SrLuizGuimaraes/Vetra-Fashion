@@ -20,6 +20,7 @@
     {% # Load and preload the critical CSS %}
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
     <script src="{{ 'vetra-dialog.js' | asset_url }}" type="module"></script>
+    <script src="{{ 'cart.js' | asset_url }}" type="module"></script>
     <script>
       window.vetraStrings = {
         addToCart: {{ 'products.add_to_cart' | t | json }},

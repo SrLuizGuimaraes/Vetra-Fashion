@@ -109,6 +109,24 @@
   </div>
 </div>
 
+<div class="sticky-cart" data-sticky-cart hidden>
+  <div class="sticky-cart__info">
+    {{ product.featured_image | image_url: width: 80, height: 100, crop: 'center' | image_tag: width: 40, height: 50 }}
+    <div>
+      <p class="sticky-cart__title">{{ product.title }}</p>
+      {% render 'product-price', variant: current_variant %}
+    </div>
+  </div>
+  <button
+    type="button"
+    class="sticky-cart__submit"
+    data-sticky-cart-submit
+    {% unless current_variant.available %}disabled{% endunless %}
+  >
+    {{ 'products.add_to_cart' | t }}
+  </button>
+</div>
+
 <vetra-dialog id="product-zoom">
   <dialog class="product-zoom">
     <button type="button" class="product-zoom__close" data-dialog-close>
@@ -127,6 +145,7 @@
 
 <script src="{{ 'product-gallery.js' | asset_url }}" type="module"></script>
 <script src="{{ 'variant-picker.js' | asset_url }}" type="module"></script>
+<script src="{{ 'sticky-cart.js' | asset_url }}" type="module"></script>
 
 {% stylesheet %}
   .product {
@@ -325,6 +344,67 @@
   .product-zoom__close svg {
     width: 1.125rem;
     height: 1.125rem;
+  }
+
+  .sticky-cart {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 15;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.75rem var(--page-margin);
+    background-color: var(--color-background);
+    border-top: 1px solid var(--color-border);
+    box-shadow: 0 -0.25rem 1rem rgb(0 0 0 / 6%);
+  }
+
+  .sticky-cart[hidden] {
+    display: none;
+  }
+
+  .sticky-cart__info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 0;
+  }
+
+  .sticky-cart__info img {
+    flex-shrink: 0;
+  }
+
+  .sticky-cart__title {
+    margin: 0 0 0.125rem;
+    font-size: 0.8125rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .sticky-cart .product-price {
+    font-size: 0.8125rem;
+  }
+
+  .sticky-cart__submit {
+    flex-shrink: 0;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--color-accent);
+    color: var(--color-background);
+    border: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.8125rem;
+    cursor: pointer;
+  }
+
+  .sticky-cart__submit:disabled {
+    background-color: var(--color-border);
+    color: var(--color-foreground);
+    cursor: not-allowed;
   }
 
   @media screen and (max-width: 749px) {

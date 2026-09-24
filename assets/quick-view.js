@@ -88,16 +88,9 @@ function bindQuickViewForm(container, product, currency) {
     submitButton.disabled = true;
 
     try {
-      const response = await fetch('/cart/add.js', {
-        method: 'POST',
-        headers: { Accept: 'application/json' },
-        body: new FormData(form),
-      });
-
-      if (!response.ok) throw new Error('Add to cart failed');
-
-      document.dispatchEvent(new CustomEvent('vetra:cart:add'));
+      await window.vetraCart.addToCart(new FormData(form));
       document.getElementById('quick-view')?.close();
+      document.getElementById('cart-drawer')?.open();
     } catch (error) {
       submitButton.textContent = window.vetraStrings.unavailable;
     } finally {
