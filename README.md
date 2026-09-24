@@ -30,12 +30,15 @@ shopify theme push                                 # publica na loja
 ## Roadmap de migração
 
 1. **Fundação** — fork do Skeleton Theme, Shopify CLI, estrutura de branches ✅
-2. **Base visual** — cores, tipografia, header/footer próprios (Skeleton não traz layout pronto)
-3. **Navegação** — mega menu, quick view, swatches nos filtros
-4. **Produto e coleção** — grid de produtos, PDP completa, galeria com zoom
-5. **Carrinho** — cart drawer, sticky cart, quick buy, cart notes
-6. **Merchandising** — badges, stock counter, countdown, promo popups/tiles
-7. **Polimento** — lookbook com hotspots, before/after slider, animações, Lighthouse
+2. **Base visual** — cores, tipografia, header/footer próprios (Skeleton não traz layout pronto) ✅
+3. **Navegação** — mega menu, menu mobile, quick view ✅
+4. **Produto e coleção** — grid de produtos com filtros/swatches, PDP com galeria e zoom ✅
+5. **Carrinho** — cart drawer AJAX, sticky cart, notas de pedido ✅
+6. **Merchandising** — badges, stock counter, countdown, promo popups/tiles ✅
+7. **Polimento** — lookbook com hotspots, before/after slider, animações de scroll, home montada ✅
+
+Todas as fases do roadmap inicial estão implementadas. Ainda não foi feito preview ao vivo numa
+loja de desenvolvimento — próximo passo antes de submeter à Theme Store.
 
 ## Créditos
 

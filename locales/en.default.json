@@ -43,6 +43,9 @@
     "choose_options": "Choose options",
     "low_stock": "Only {{ count }} left in stock"
   },
+  "lookbook": {
+    "before_after_slider": "Drag to compare before and after"
+  },
   "countdown": {
     "days": "Days",
     "hours": "Hours",

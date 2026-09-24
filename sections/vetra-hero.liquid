@@ -1,0 +1,117 @@
+{% comment %}
+  Full-width hero banner for the home page: image, heading, and a
+  single call-to-action.
+{% endcomment %}
+
+<div class="hero shopify-section full-width">
+  {% if section.settings.image %}
+    {{
+      section.settings.image
+      | image_url: width: 2000
+      | image_tag: class: 'hero__image', loading: 'eager', widths: '750,1200,2000'
+    }}
+  {% endif %}
+
+  <div class="hero__content">
+    {% if section.settings.heading != blank %}
+      <h1 class="hero__heading">{{ section.settings.heading }}</h1>
+    {% endif %}
+    {% if section.settings.subheading != blank %}
+      <p class="hero__subheading">{{ section.settings.subheading }}</p>
+    {% endif %}
+    {% if section.settings.link != blank %}
+      <a href="{{ section.settings.link }}" class="hero__cta">{{ section.settings.link_text }}</a>
+    {% endif %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .hero {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: 32rem;
+    color: #fff;
+  }
+
+  .hero__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero__content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    padding: 3rem var(--page-margin);
+    background: linear-gradient(to top, rgb(0 0 0 / 50%), transparent);
+  }
+
+  .hero__heading {
+    margin: 0 0 0.75rem;
+    font-family: var(--font-heading--family);
+    font-style: var(--font-heading--style);
+    font-size: clamp(2rem, 5vw, 3rem);
+  }
+
+  .hero__subheading {
+    max-width: 32rem;
+    margin: 0 0 1.5rem;
+    opacity: 0.9;
+  }
+
+  .hero__cta {
+    display: inline-block;
+    padding: 0.875rem 2rem;
+    background-color: var(--color-accent);
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.8125rem;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:labels.image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "New season, new essentials"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "t:labels.subheading",
+      "default": "Timeless pieces, made to move with you."
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "t:labels.link"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "t:labels.link_text",
+      "default": "Shop the collection"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.hero"
+    }
+  ]
+}
+{% endschema %}
