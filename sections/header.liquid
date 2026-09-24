@@ -1,4 +1,4 @@
-<header class="site-header">
+<header class="site-header {% if template.name == 'index' %}site-header--overlay{% endif %}" data-site-header>
   <button type="button" class="site-header__menu-toggle" data-dialog-open="mobile-menu">
     {{ 'icon-menu.svg' | inline_asset_content }}
     <span class="visually-hidden">{{ 'general.menu' | t }}</span>
@@ -99,6 +99,8 @@
 
 {% render 'quick-view' %}
 
+<script src="{{ 'site-header.js' | asset_url }}" type="module"></script>
+
 {% stylesheet %}
   .site-header {
     display: grid;
@@ -107,6 +109,45 @@
     gap: var(--page-margin);
     height: 6rem;
     border-bottom: 1px solid var(--color-border);
+  }
+
+  .site-header--overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 40;
+    border-bottom: 0;
+    background: linear-gradient(to bottom, rgb(0 0 0 / 45%), transparent 85%);
+    color: #fff;
+    transition:
+      background-color 0.25s ease,
+      color 0.25s ease;
+  }
+
+  .site-header--overlay .site-header__logo a,
+  .site-header--overlay .site-header__nav-link,
+  .site-header--overlay .site-header__icon,
+  .site-header--overlay .site-header__menu-toggle {
+    color: #fff;
+  }
+
+  .site-header--overlay.is-scrolled {
+    position: fixed;
+    background: var(--color-background);
+    color: var(--color-foreground);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .site-header--overlay.is-scrolled .site-header__logo a,
+  .site-header--overlay.is-scrolled .site-header__nav-link,
+  .site-header--overlay.is-scrolled .site-header__icon,
+  .site-header--overlay.is-scrolled .site-header__menu-toggle {
+    color: var(--color-foreground);
+  }
+
+  .site-header--overlay.is-scrolled .site-header__logo a {
+    color: var(--color-accent);
   }
 
   .site-header__menu-toggle {

@@ -1,0 +1,108 @@
+{
+  "general": {
+    "menu": "Menu",
+    "close": "Fechar",
+    "product": "Produto"
+  },
+  "404": {
+    "title": "404",
+    "not_found": "Página não encontrada.",
+    "back_to_shopping": "Voltar às compras"
+  },
+  "blog": {
+    "article_comments": "Comentários",
+    "article_metadata_html": "{{ date }} por {{ author }}",
+    "comment_form_body": "Comentário",
+    "comment_form_email": "E-mail",
+    "comment_form_name": "Nome",
+    "comment_form_submit": "Publicar",
+    "comment_form_title": "Adicionar um comentário"
+  },
+  "cart": {
+    "checkout": "Finalizar compra",
+    "title": "Carrinho",
+    "update": "Atualizar",
+    "remove": "Remover",
+    "empty": "Seu carrinho está vazio",
+    "continue_shopping": "Continuar comprando",
+    "subtotal": "Subtotal",
+    "view_cart": "Ver carrinho",
+    "note": "Observação do pedido",
+    "quantity": "Quantidade"
+  },
+  "products": {
+    "sold_out": "Esgotado",
+    "add_to_cart": "Adicionar ao carrinho",
+    "quick_add": "Adicionar rápido",
+    "quick_view": "Visualização rápida",
+    "unavailable": "Indisponível",
+    "from": "A partir de",
+    "sale": "Promoção",
+    "quantity": "Quantidade",
+    "description": "Descrição",
+    "choose_options": "Escolher opções",
+    "low_stock": "Restam apenas {{ count }} em estoque"
+  },
+  "lookbook": {
+    "before_after_slider": "Arraste para comparar antes e depois"
+  },
+  "slideshow": {
+    "go_to_slide": "Ir para o slide {{ number }}"
+  },
+  "shipping_estimator": {
+    "country": "Código do país",
+    "zip": "CEP",
+    "estimate": "Calcular",
+    "estimating": "Calculando…",
+    "empty": "Nenhuma taxa disponível para esse endereço, ou seu carrinho está vazio.",
+    "error": "Não foi possível calcular o frete. Tente novamente."
+  },
+  "countdown": {
+    "days": "Dias",
+    "hours": "Horas",
+    "minutes": "Min",
+    "seconds": "Seg"
+  },
+  "collection": {
+    "filter": "Filtrar",
+    "filters": "Filtros",
+    "sort_by": "Ordenar por",
+    "clear_all": "Limpar tudo",
+    "apply_filters": "Aplicar",
+    "no_products": "Nenhum produto encontrado",
+    "results_count": "{{ count }} produtos",
+    "price_from": "De",
+    "price_to": "Até",
+    "view_all": "Ver tudo"
+  },
+  "customers": {
+    "login": {
+      "email": "E-mail",
+      "password": "Senha",
+      "submit": "Entrar",
+      "title": "Login"
+    }
+  },
+  "collections": {
+    "title": "Coleções"
+  },
+  "gift_card": {
+    "add_to_apple_wallet": "Adicionar à Apple Wallet",
+    "card": "Cartão-presente",
+    "expired": "Este cartão-presente expirou",
+    "expires_on": "Expira em {{ expires_on }}",
+    "use_at_checkout": "Use este cartão-presente no checkout"
+  },
+  "password": {
+    "title": "Esta loja é privada",
+    "password": "Senha",
+    "enter": "Entrar"
+  },
+  "search": {
+    "title": "Buscar",
+    "placeholder": "Buscar artigos, páginas ou produtos",
+    "submit": "Buscar",
+    "no_results_html": "Nenhum resultado encontrado para {{ terms }}",
+    "results_for_html": "{{ count }} resultados encontrados para {{ terms }}"
+  }
+}

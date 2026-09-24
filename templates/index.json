@@ -11,7 +11,12 @@
       "settings": {}
     },
     "hero": {
-      "type": "vetra-hero",
+      "type": "vetra-slideshow",
+      "blocks": {
+        "slide-1": { "type": "slide", "settings": {} },
+        "slide-2": { "type": "slide", "settings": {} }
+      },
+      "block_order": ["slide-1", "slide-2"],
       "settings": {}
     },
     "trust-badges": {
