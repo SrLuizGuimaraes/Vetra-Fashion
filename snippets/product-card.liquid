@@ -1,0 +1,125 @@
+{% doc %}
+  Renders a product card for grids (collection, search, related products).
+
+  @param {product} product - The product to render
+
+  @example
+  {% render 'product-card', product: product %}
+{% enddoc %}
+
+<div class="product-card">
+  <div class="product-card__media">
+    {% render 'product-badges', product: product %}
+
+    <a href="{{ product.url }}" class="product-card__image-link">
+      {{
+        product.featured_image
+        | image_url: width: 600, height: 750, crop: 'center'
+        | image_tag: class: 'product-card__image product-card__image--primary', loading: 'lazy', widths: '300,450,600'
+      }}
+      {% if product.images.size > 1 %}
+        {{
+          product.images[1]
+          | image_url: width: 600, height: 750, crop: 'center'
+          | image_tag: class: 'product-card__image product-card__image--secondary', loading: 'lazy', widths: '300,450,600'
+        }}
+      {% endif %}
+    </a>
+
+    <button
+      type="button"
+      class="product-card__quick-view"
+      data-quick-view="{{ product.url }}"
+      data-dialog-open="quick-view"
+    >
+      {{ 'products.quick_view' | t }}
+    </button>
+  </div>
+
+  <div class="product-card__info">
+    <p class="product-card__title">{{ product.title | link_to: product.url }}</p>
+    {% render 'product-price', product: product, show_from: true %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .product-card__media {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .product-card__image-link {
+    position: relative;
+    display: block;
+  }
+
+  .product-card__image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+
+  .product-card__image--secondary {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  .product-card__media:hover .product-card__image--secondary {
+    opacity: 1;
+  }
+
+  .product-card__quick-view {
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    padding: 0.625rem;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    border: 1px solid var(--color-border);
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(0.5rem);
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .product-card__media:hover .product-card__quick-view,
+  .product-card__quick-view:focus-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .product-card__title {
+    margin: 0;
+    font-size: 0.875rem;
+  }
+
+  .product-card__title a {
+    color: var(--color-foreground);
+    text-decoration: none;
+  }
+
+  .product-card__title a:hover {
+    color: var(--color-accent);
+  }
+
+  @media (hover: none) {
+    .product-card__quick-view {
+      display: none;
+    }
+  }
+{% endstylesheet %}

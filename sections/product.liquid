@@ -5,41 +5,344 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/product
 {% endcomment %}
 
-<div class="product-images">
-  {% for image in product.images %}
-    {% render 'image', class: 'product-image', image: image %}
-  {% endfor %}
-</div>
+{% liquid
+  assign current_variant = product.selected_or_first_available_variant
+%}
 
-<div class="product-info">
-  <h1>{{ product.title }}</h1>
-  <p>{{ product.price | money }}</p>
-  <p>{{ product.description }}</p>
-</div>
-
-<div class="product-form">
-  {% form 'product', product %}
-    {% assign current_variant = product.selected_or_first_available_variant %}
-
-    <select name="id">
-      {% for variant in product.variants %}
-        <option
-          value="{{ variant.id }}"
-          {% if variant == current_variant %}
-            selected="selected"
-          {% endif %}
+<div class="product">
+  <div class="product-gallery">
+    <div class="product-gallery__thumbnails">
+      {% for image in product.images %}
+        <button
+          type="button"
+          class="product-gallery__thumbnail {% if forloop.first %}is-active{% endif %}"
+          data-gallery-thumbnail
+          data-target="product-image-{{ forloop.index0 }}"
         >
-          {{ variant.title }} - {{ variant.price | money }}
-        </option>
+          {{ image | image_url: width: 160, height: 200, crop: 'center' | image_tag: loading: 'lazy' }}
+        </button>
       {% endfor %}
-    </select>
+    </div>
 
-    <input type="text" name="quantity" min="1" value="1">
+    <div class="product-gallery__main">
+      {% for image in product.images %}
+        <button
+          type="button"
+          id="product-image-{{ forloop.index0 }}"
+          class="product-gallery__image-button {% if forloop.first %}is-active{% endif %}"
+          data-gallery-image
+          data-dialog-open="product-zoom"
+          data-zoom-src="{{ image | image_url: width: 1600 }}"
+        >
+          {{
+            image
+            | image_url: width: 900, height: 1125, crop: 'center'
+            | image_tag: loading: forloop.first | default: 'eager', widths: '450,600,900'
+          }}
+        </button>
+      {% endfor %}
+    </div>
+  </div>
 
-    <input type="submit" value="Add to cart">
-    {{ form | payment_button }}
-  {% endform %}
+  <div class="product-info">
+    <h1 class="product-info__title">{{ product.title }}</h1>
+
+    {% render 'product-price', variant: current_variant %}
+
+    <variant-picker class="product-form" data-product-json='{{ product.variants | json | escape }}'>
+      {% form 'product', product, id: 'product-form' %}
+        <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id-input>
+
+        {% for option in product.options_with_values %}
+          <fieldset class="product-option">
+            <legend class="product-option__label">{{ option.name }}</legend>
+            <div class="product-option__values">
+              {% for value in option.values %}
+                <label class="product-option__value {% if value.swatch %}product-option__value--swatch{% endif %}">
+                  <input
+                    type="radio"
+                    name="option-{{ option.position }}"
+                    value="{{ value | escape }}"
+                    {% if value == option.selected_value %}
+                      checked
+                    {% endif %}
+                  >
+                  {% if value.swatch %}
+                    <span
+                      class="product-option__swatch"
+                      style="{% if value.swatch.color %}background-color: {{ value.swatch.color }};{% endif %}"
+                      title="{{ value }}"
+                    >
+                      {% if value.swatch.image %}
+                        {{ value.swatch.image | image_url: width: 60 | image_tag }}
+                      {% endif %}
+                    </span>
+                  {% else %}
+                    <span class="product-option__pill">{{ value }}</span>
+                  {% endif %}
+                </label>
+              {% endfor %}
+            </div>
+          </fieldset>
+        {% endfor %}
+
+        <label class="product-quantity">
+          <span>{{ 'products.quantity' | t }}</span>
+          <input type="number" name="quantity" min="1" value="1">
+        </label>
+
+        <button type="submit" class="product-form__submit" data-add-to-cart {% unless current_variant.available %}disabled{% endunless %}>
+          {% if current_variant.available %}
+            {{ 'products.add_to_cart' | t }}
+          {% else %}
+            {{ 'products.sold_out' | t }}
+          {% endif %}
+        </button>
+      {% endform %}
+    </variant-picker>
+
+    {% if product.description != blank %}
+      <div class="product-info__description">
+        {{ product.description }}
+      </div>
+    {% endif %}
+  </div>
 </div>
+
+<vetra-dialog id="product-zoom">
+  <dialog class="product-zoom">
+    <button type="button" class="product-zoom__close" data-dialog-close>
+      {{ 'icon-close.svg' | inline_asset_content }}
+      <span class="visually-hidden">{{ 'general.close' | t }}</span>
+    </button>
+    <img
+      class="product-zoom__image"
+      data-zoom-image
+      alt="{{ product.title | escape }}"
+      width="1600"
+      height="2000"
+    >
+  </dialog>
+</vetra-dialog>
+
+<script src="{{ 'product-gallery.js' | asset_url }}" type="module"></script>
+<script src="{{ 'variant-picker.js' | asset_url }}" type="module"></script>
+
+{% stylesheet %}
+  .product {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: 3rem;
+    padding: 2rem 0 4rem;
+  }
+
+  .product-gallery {
+    display: grid;
+    grid-template-columns: 5rem minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  .product-gallery__thumbnails {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .product-gallery__thumbnail {
+    padding: 0;
+    border: 1px solid transparent;
+    background: none;
+    cursor: pointer;
+  }
+
+  .product-gallery__thumbnail.is-active {
+    border-color: var(--color-accent);
+  }
+
+  .product-gallery__main {
+    position: relative;
+  }
+
+  .product-gallery__image-button {
+    display: none;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: zoom-in;
+  }
+
+  .product-gallery__image-button.is-active {
+    display: block;
+  }
+
+  .product-gallery__image-button img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+
+  .product-info__title {
+    margin: 0 0 0.75rem;
+    font-family: var(--font-heading--family);
+    font-style: var(--font-heading--style);
+    font-size: 1.75rem;
+  }
+
+  .product-info .product-price {
+    font-size: 1.125rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .product-option {
+    margin: 0 0 1.25rem;
+    padding: 0;
+    border: 0;
+  }
+
+  .product-option__label {
+    padding: 0;
+    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .product-option__values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+  }
+
+  .product-option__value {
+    cursor: pointer;
+  }
+
+  .product-option__value input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+  }
+
+  .product-option__pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--color-border);
+    font-size: 0.8125rem;
+  }
+
+  .product-option__value input:checked + .product-option__pill {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .product-option__swatch {
+    display: block;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+  }
+
+  .product-option__value input:checked + .product-option__swatch {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  .product-quantity {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 8rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .product-quantity input {
+    padding: 0.625rem;
+    border: 1px solid var(--color-border);
+  }
+
+  .product-form__submit {
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--color-accent);
+    color: var(--color-background);
+    border: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.875rem;
+    cursor: pointer;
+  }
+
+  .product-form__submit:disabled {
+    background-color: var(--color-border);
+    color: var(--color-foreground);
+    cursor: not-allowed;
+  }
+
+  .product-info__description {
+    margin-top: 2rem;
+    line-height: 1.6;
+  }
+
+  .product-zoom {
+    width: min(50rem, 94vw);
+    max-height: 92vh;
+    padding: 1.5rem;
+    border: 0;
+    background-color: var(--color-background);
+  }
+
+  .product-zoom::backdrop {
+    background-color: rgb(0 0 0 / 55%);
+  }
+
+  .product-zoom__image {
+    width: 100%;
+    height: auto;
+  }
+
+  .product-zoom__close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    color: var(--color-foreground);
+  }
+
+  .product-zoom__close svg {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  @media screen and (max-width: 749px) {
+    .product {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .product-gallery {
+      grid-template-columns: 1fr;
+    }
+
+    .product-gallery__thumbnails {
+      flex-direction: row;
+      overflow-x: auto;
+    }
+  }
+{% endstylesheet %}
 
 {% schema %}
 {

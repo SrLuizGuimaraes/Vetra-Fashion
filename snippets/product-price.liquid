@@ -1,0 +1,56 @@
+{% doc %}
+  Renders a product or variant's price, with a struck-through compare-at
+  price when the item is on sale.
+
+  @param {product} [product] - The product to render the price for
+  @param {variant} [variant] - A specific variant to render the price for, takes priority over `product`
+  @param {boolean} [show_from] - Whether to prefix the price with "From" when the product has variants at different prices
+
+  @example
+  {% render 'product-price', product: product %}
+  {% render 'product-price', variant: product.selected_or_first_available_variant %}
+{% enddoc %}
+
+{% liquid
+  assign target = variant | default: product
+  assign price = target.price | default: product.price_min
+  assign compare_at_price = target.compare_at_price | default: product.compare_at_price_max
+%}
+
+<div class="product-price">
+  {% if show_from and product.price_varies %}
+    <span class="product-price__from">{{ 'products.from' | t }}</span>
+  {% endif %}
+
+  {% if compare_at_price > price %}
+    <span class="product-price__sale">{{ price | money }}</span>
+    <span class="product-price__compare-at">{{ compare_at_price | money }}</span>
+  {% else %}
+    <span class="product-price__regular">{{ price | money }}</span>
+  {% endif %}
+</div>
+
+{% stylesheet %}
+  .product-price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-size: 0.9375rem;
+  }
+
+  .product-price__from {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  .product-price__sale {
+    color: var(--color-accent);
+  }
+
+  .product-price__compare-at {
+    text-decoration: line-through;
+    opacity: 0.6;
+    font-size: 0.8125rem;
+  }
+{% endstylesheet %}

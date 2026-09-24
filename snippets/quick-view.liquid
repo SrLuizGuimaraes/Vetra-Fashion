@@ -1,0 +1,115 @@
+{% doc %}
+  Renders the global quick view dialog shell. Its content is fetched and
+  filled in client-side by assets/quick-view.js when a
+  [data-quick-view="<product-url>"] trigger is clicked.
+
+  @example
+  {% render 'quick-view' %}
+{% enddoc %}
+
+<vetra-dialog id="quick-view">
+  <dialog class="quick-view">
+    <button type="button" class="quick-view__close" data-dialog-close>
+      {{ 'icon-close.svg' | inline_asset_content }}
+      <span class="visually-hidden">{{ 'general.close' | t }}</span>
+    </button>
+    <div class="quick-view__content" data-quick-view-content>
+      <p class="quick-view__loading">…</p>
+    </div>
+  </dialog>
+</vetra-dialog>
+
+<script src="{{ 'quick-view.js' | asset_url }}" type="module"></script>
+
+{% stylesheet %}
+  .quick-view {
+    width: min(60rem, 92vw);
+    max-height: 88vh;
+    padding: 2rem;
+    border: 0;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  .quick-view::backdrop {
+    background-color: rgb(0 0 0 / 40%);
+  }
+
+  .quick-view__close {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    color: var(--color-foreground);
+  }
+
+  .quick-view__close svg {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  .quick-view__loading,
+  .quick-view__error {
+    padding: 3rem 0;
+    text-align: center;
+    opacity: 0.7;
+  }
+
+  .quick-view__content .quick-view-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 2.5rem;
+  }
+
+  .quick-view__content .quick-view-grid img {
+    width: 100%;
+    height: auto;
+  }
+
+  .quick-view__content h2 {
+    margin: 0 0 0.5rem;
+    font-family: var(--font-heading--family);
+    font-style: var(--font-heading--style);
+    font-size: 1.5rem;
+  }
+
+  .quick-view__content .quick-view-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .quick-view__content select {
+    width: 100%;
+    padding: 0.625rem 0.75rem;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-background);
+  }
+
+  .quick-view__content button[type='submit'] {
+    width: 100%;
+    padding: 0.875rem;
+    background-color: var(--color-accent);
+    color: var(--color-background);
+    border: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.8125rem;
+    cursor: pointer;
+  }
+
+  .quick-view__content button[type='submit']:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  @media screen and (max-width: 749px) {
+    .quick-view__content .quick-view-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+{% endstylesheet %}

@@ -1,0 +1,53 @@
+{% doc %}
+  Renders sale/sold-out/new badges for a product.
+
+  @param {product} product - The product to render badges for
+
+  @example
+  {% render 'product-badges', product: product %}
+{% enddoc %}
+
+<div class="product-badges">
+  {% if product.compare_at_price > product.price %}
+    <span class="product-badge product-badge--sale">
+      {%- liquid
+        assign discount = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price
+      -%}
+      -{{ discount }}%
+    </span>
+  {% endif %}
+
+  {% unless product.available %}
+    <span class="product-badge product-badge--sold-out">{{ 'products.sold_out' | t }}</span>
+  {% endunless %}
+</div>
+
+{% stylesheet %}
+  .product-badges {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .product-badge {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.6875rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  .product-badge--sale {
+    background-color: var(--color-accent);
+    color: var(--color-background);
+  }
+
+  .product-badge--sold-out {
+    opacity: 0.7;
+  }
+{% endstylesheet %}
