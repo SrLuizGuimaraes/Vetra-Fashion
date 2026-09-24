@@ -1,39 +1,113 @@
-<footer>
-  <div class="footer__copyright">
-    &copy;
-    {{ 'now' | date: '%Y' }}
-    {{ shop.name | link_to: routes.root_url }}, {{ powered_by_link }}
-  </div>
+<footer class="site-footer">
+  <div class="site-footer__row">
+    <div class="site-footer__brand">
+      <p class="site-footer__logo">{{ shop.name }}</p>
+      {% if section.settings.tagline != blank %}
+        <p class="site-footer__tagline">{{ section.settings.tagline }}</p>
+      {% endif %}
+    </div>
 
-  <div class="footer__links">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
-  </div>
-
-  <div class="footer__payment">
-    {% if section.settings.show_payment_icons %}
-      {% for type in shop.enabled_payment_types %}
-        {{ type | payment_type_svg_tag }}
+    <nav class="site-footer__links">
+      {% for link in section.settings.menu.links %}
+        {{ link.title | link_to: link.url }}
       {% endfor %}
+    </nav>
+  </div>
+
+  <div class="site-footer__row site-footer__row--bottom">
+    <p class="site-footer__copyright">
+      &copy;
+      {{ 'now' | date: '%Y' }}
+      {{ shop.name | link_to: routes.root_url }}, {{ powered_by_link }}
+    </p>
+
+    {% if section.settings.show_payment_icons %}
+      <div class="site-footer__payment">
+        {% for type in shop.enabled_payment_types %}
+          {{ type | payment_type_svg_tag }}
+        {% endfor %}
+      </div>
     {% endif %}
   </div>
 </footer>
 
 {% stylesheet %}
-  footer {
+  .site-footer {
     display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 4rem;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .site-footer__row {
+    display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    margin-top: 2rem;
+    gap: 1.5rem;
   }
-  footer a {
-    text-decoration: none;
+
+  .site-footer__logo {
+    margin: 0 0 0.5rem;
+    font-family: var(--font-heading--family);
+    font-style: var(--font-heading--style);
+    font-weight: var(--font-heading--weight);
+    font-size: 1.25rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .site-footer__tagline {
+    max-width: 26rem;
+    margin: 0;
     color: var(--color-foreground);
+    opacity: 0.75;
+    font-size: 0.875rem;
   }
-  footer .footer__links,
-  footer .footer__payment {
+
+  .site-footer__links {
     display: flex;
-    gap: 1rem;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-content: flex-start;
+  }
+
+  .site-footer__links a {
+    color: var(--color-foreground);
+    text-decoration: none;
+    font-size: 0.8125rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .site-footer__links a:hover {
+    color: var(--color-accent);
+  }
+
+  .site-footer__row--bottom {
+    align-items: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+    font-size: 0.75rem;
+    opacity: 0.75;
+  }
+
+  .site-footer__copyright a {
+    color: inherit;
+  }
+
+  .site-footer__payment {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .site-footer__payment svg {
+    height: 1.25rem;
+    width: auto;
   }
 {% endstylesheet %}
 
@@ -41,6 +115,11 @@
 {
   "name": "t:general.footer",
   "settings": [
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "t:labels.tagline"
+    },
     {
       "type": "link_list",
       "id": "menu",

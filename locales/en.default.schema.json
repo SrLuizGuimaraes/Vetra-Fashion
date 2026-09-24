@@ -34,8 +34,10 @@
     "typography": "Typography"
   },
   "labels": {
+    "accent": "Accent",
     "alignment": "Alignment",
     "background": "Background",
+    "border": "Border",
     "foreground": "Foreground",
     "grid_gap": "Grid spacing",
     "grid_item_width": "Grid item width",
@@ -47,6 +49,7 @@
     "page_margin": "Page margin",
     "page_width": "Page width",
     "show_payment_icons": "Show payment icons",
+    "tagline": "Tagline",
     "text_style": "Text style",
     "text": "Text"
   },
@@ -72,6 +75,6 @@
       "title": "Title",
       "subtitle": "Subtitle",
       "normal": "Normal text"
-    },
+    }
   }
 }
