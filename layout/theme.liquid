@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ request.locale.iso_code }}" data-shop-currency="{{ cart.currency.iso_code }}">
+<html lang="{{ request.locale.iso_code }}">
   <head>
     {% # Inlined CSS Variables %}
     {% render 'css-variables' %}
@@ -20,9 +20,11 @@
     {% # Load and preload the critical CSS %}
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
     <script src="{{ 'vetra-dialog.js' | asset_url }}" type="module"></script>
+    <script src="{{ 'money.js' | asset_url }}" type="module"></script>
     <script src="{{ 'cart.js' | asset_url }}" type="module"></script>
     <script src="{{ 'scroll-reveal.js' | asset_url }}" type="module"></script>
     <script>
+      window.vetraMoneyFormat = {{ shop.money_format | json }};
       window.vetraStrings = {
         addToCart: {{ 'products.add_to_cart' | t | json }},
         soldOut: {{ 'products.sold_out' | t | json }},

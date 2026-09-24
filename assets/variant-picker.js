@@ -1,10 +1,3 @@
-function formatMoney(cents, currency) {
-  return (cents / 100).toLocaleString(document.documentElement.lang || 'en', {
-    style: 'currency',
-    currency,
-  });
-}
-
 /**
  * <variant-picker> keeps the hidden variant id input, add-to-cart
  * button, and price display in sync with the option swatches/pills
@@ -13,7 +6,6 @@ function formatMoney(cents, currency) {
 class VariantPicker extends HTMLElement {
   connectedCallback() {
     this.variants = JSON.parse(this.dataset.productJson);
-    this.currency = document.documentElement.dataset.shopCurrency || 'USD';
     this.addEventListener('change', (event) => {
       if (event.target.matches('input[type="radio"]')) this.sync();
     });
@@ -77,9 +69,9 @@ class VariantPicker extends HTMLElement {
     if (priceEl) {
       const onSale = variant.compare_at_price > variant.price;
       priceEl.innerHTML = onSale
-        ? `<span class="product-price__sale">${formatMoney(variant.price, this.currency)}</span>
-           <span class="product-price__compare-at">${formatMoney(variant.compare_at_price, this.currency)}</span>`
-        : `<span class="product-price__regular">${formatMoney(variant.price, this.currency)}</span>`;
+        ? `<span class="product-price__sale">${window.vetraFormatMoney(variant.price)}</span>
+           <span class="product-price__compare-at">${window.vetraFormatMoney(variant.compare_at_price)}</span>`
+        : `<span class="product-price__regular">${window.vetraFormatMoney(variant.price)}</span>`;
     }
 
     const stockEl = this.closest('.product-info')?.querySelector('[data-stock-counter]');

@@ -3,14 +3,7 @@
  * Fetches a product's JSON representation and renders a minimal
  * variant picker + add-to-cart form on the fly.
  */
-function formatMoney(cents, currency) {
-  return (cents / 100).toLocaleString(document.documentElement.lang || 'en', {
-    style: 'currency',
-    currency,
-  });
-}
-
-function renderQuickView(product, currency) {
+function renderQuickView(product) {
   const image = product.images[0] || product.featured_image;
   const optionsMarkup = product.options.length
     ? product.options
@@ -38,7 +31,7 @@ function renderQuickView(product, currency) {
       </div>
       <div class="quick-view-info">
         <h2>${product.title}</h2>
-        <p class="quick-view-price" data-quick-view-price>${formatMoney(product.price, currency)}</p>
+        <p class="quick-view-price" data-quick-view-price>${window.vetraFormatMoney(product.price)}</p>
         <form data-quick-view-form>
           <input type="hidden" name="id" value="${product.variants[0].id}" data-quick-view-variant-id>
           <div class="quick-view-options">${optionsMarkup}</div>
@@ -49,7 +42,7 @@ function renderQuickView(product, currency) {
   `;
 }
 
-function bindQuickViewForm(container, product, currency) {
+function bindQuickViewForm(container, product) {
   const form = container.querySelector('[data-quick-view-form]');
   const variantIdInput = container.querySelector('[data-quick-view-variant-id]');
   const priceEl = container.querySelector('[data-quick-view-price]');
@@ -73,7 +66,7 @@ function bindQuickViewForm(container, product, currency) {
       return;
     }
     variantIdInput.value = variant.id;
-    priceEl.textContent = formatMoney(variant.price, currency);
+    priceEl.textContent = window.vetraFormatMoney(variant.price);
     submitButton.disabled = !variant.available;
     submitButton.textContent = variant.available
       ? window.vetraStrings.addToCart
@@ -113,10 +106,8 @@ document.addEventListener('click', async (event) => {
     if (!response.ok) throw new Error('Product fetch failed');
 
     const product = await response.json();
-    const currency = document.documentElement.dataset.shopCurrency || 'USD';
-
-    content.innerHTML = renderQuickView(product, currency);
-    bindQuickViewForm(content, product, currency);
+    content.innerHTML = renderQuickView(product);
+    bindQuickViewForm(content, product);
   } catch (error) {
     content.innerHTML = '<p class="quick-view__error">…</p>';
   }
